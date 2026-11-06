@@ -19,9 +19,6 @@ RegistroEstudiantesMVVM/
 │   └── RegistroPage.xaml.cs     # Code-behind desacoplado con Inyección de Dependencias
 ├── Services/
 │   └── IEstudianteService.cs    # Contratos y abstracción para acceso a datos y servicios
-├── docs/                        # Recursos visuales y documentación gráfica
-│   ├── captura_formulario.png
-│   └── captura_lista.png
 ├── MauiProgram.cs               # Configuración del contenedor IoC (Inversión de Control)
 ├── AppShell.xaml                # Enrutador de navegación principal
 └── README.md
@@ -125,23 +122,7 @@ Y en `AppShell.xaml`, se estableció `RegistroPage` como la pantalla de inicio p
 
 ---
 
-## 📸 4. Evidencia Visual del Funcionamiento
-
-### Formulario de Registro y Validación
-Espacio reservado para mostrar la captura del formulario de entrada con sus controles (`Entry`, `Picker`, `DatePicker` y `Button`):
-
-![Formulario](docs/captura_formulario.png)
-
----
-
-### Lista de Estudiantes Registrados
-Espacio reservado para mostrar la visualización de las tarjetas generadas en el `CollectionView` dinámicamente:
-
-![Lista](docs/captura_lista.png)
-
----
-
-## 🚀 5. Instrucciones de Compilación y Ejecución
+## 🚀 4. Instrucciones de Compilación y Ejecución
 
 ### Prerrequisitos
 - .NET 10 SDK (o .NET 8 / 9 SDK con carga de trabajo de .NET MAUI).
