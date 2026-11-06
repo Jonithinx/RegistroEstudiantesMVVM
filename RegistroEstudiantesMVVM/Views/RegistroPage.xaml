@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:RegistroEstudiantesMVVM.ViewModels"
+             xmlns:models="clr-namespace:RegistroEstudiantesMVVM.Models"
+             x:Class="RegistroEstudiantesMVVM.Views.RegistroPage"
+             x:DataType="viewmodels:RegistroViewModel"
+             Title="Registro de Estudiantes"
+             BackgroundColor="{AppThemeBinding Light=#F4F6F9, Dark=#121212}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="20">
+
+            <!-- Encabezado -->
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Sistema de Registro Académico"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light=#1E293B, Dark=#F8FAFC}" />
+                <Label Text="Complete la información del estudiante para ingresarlo a la lista"
+                       FontSize="14"
+                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}" />
+            </VerticalStackLayout>
+
+            <!-- Tarjeta Formulario -->
+            <Border StrokeThickness="1"
+                    Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2D3748}"
+                    BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1E293B}"
+                    Padding="20">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="#000000" Offset="0,2" Radius="8" Opacity="0.08" />
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Datos del Estudiante"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#0F172A, Dark=#F1F5F9}" />
+
+                    <!-- Campo Nombre -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Nombre completo *"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#334155, Dark=#CBD5E1}" />
+                        <Entry Placeholder="Ej. Juan Pérez"
+                               Text="{Binding Nombre, Mode=TwoWay}"
+                               ClearButtonVisibility="WhileEditing" />
+                    </VerticalStackLayout>
+
+                    <!-- Campo Correo -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Correo electrónico *"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#334155, Dark=#CBD5E1}" />
+                        <Entry Placeholder="ejemplo@universidad.edu"
+                               Keyboard="Email"
+                               Text="{Binding Correo, Mode=TwoWay}"
+                               ClearButtonVisibility="WhileEditing" />
+                    </VerticalStackLayout>
+
+                    <!-- Campo Teléfono -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Teléfono *"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#334155, Dark=#CBD5E1}" />
+                        <Entry Placeholder="Ej. +503 7000-0000"
+                               Keyboard="Telephone"
+                               Text="{Binding Telefono, Mode=TwoWay}"
+                               ClearButtonVisibility="WhileEditing" />
+                    </VerticalStackLayout>
+
+                    <!-- Campo Carrera -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Carrera universitaria *"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#334155, Dark=#CBD5E1}" />
+                        <Picker Title="Seleccione una carrera"
+                                ItemsSource="{Binding CarrerasDisponibles}"
+                                SelectedItem="{Binding Carrera, Mode=TwoWay}" />
+                    </VerticalStackLayout>
+
+                    <!-- Campo Fecha de Registro -->
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Fecha de inscripción *"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#334155, Dark=#CBD5E1}" />
+                        <DatePicker Date="{Binding Fecha, Mode=TwoWay}"
+                                    Format="dd/MM/yyyy" />
+                    </VerticalStackLayout>
+
+                    <!-- Botón Guardar -->
+                    <Button Text="Guardar Estudiante"
+                            Command="{Binding GuardarCommand}"
+                            FontAttributes="Bold"
+                            HeightRequest="48"
+                            CornerRadius="8"
+                            Margin="0,10,0,0" />
+
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Sección Lista de Estudiantes -->
+            <VerticalStackLayout Spacing="10">
+                <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center">
+                    <Label Grid.Column="0"
+                           Text="Estudiantes Registrados"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light=#1E293B, Dark=#F8FAFC}"
+                           VerticalOptions="Center" />
+
+                    <!-- Contador badge -->
+                    <Border Grid.Column="1"
+                            StrokeThickness="0"
+                            BackgroundColor="{AppThemeBinding Light=#E0E7FF, Dark=#3730A3}"
+                            Padding="10,4">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Label Text="{Binding ListaEstudiantes.Count, StringFormat='{0} inscritos'}"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light=#4338CA, Dark=#E0E7FF}" />
+                    </Border>
+                </Grid>
+
+                <!-- CollectionView con DataTemplate compilado -->
+                <CollectionView ItemsSource="{Binding ListaEstudiantes}">
+                    <CollectionView.EmptyView>
+                        <Border StrokeThickness="1"
+                                Stroke="{AppThemeBinding Light=#CBD5E1, Dark=#334155}"
+                                StrokeDashArray="4,4"
+                                BackgroundColor="Transparent"
+                                Padding="30"
+                                Margin="0,10">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <VerticalStackLayout Spacing="8" HorizontalOptions="Center" VerticalOptions="Center">
+                                <Label Text="No hay estudiantes registrados"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="{AppThemeBinding Light=#64748B, Dark=#94A3B8}" />
+                                <Label Text="Complete el formulario superior para registrar alumnos en el sistema."
+                                       FontSize="13"
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="{AppThemeBinding Light=#94A3B8, Dark=#64748B}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Estudiante">
+                            <Border Margin="0,6"
+                                    Padding="16"
+                                    StrokeThickness="1"
+                                    Stroke="{AppThemeBinding Light=#E2E8F0, Dark=#2D3748}"
+                                    BackgroundColor="{AppThemeBinding Light=#FFFFFF, Dark=#1E293B}">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="#000000" Offset="0,1" Radius="4" Opacity="0.05" />
+                                </Border.Shadow>
+
+                                <Grid RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="6">
+                                    <!-- Nombre -->
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                           Text="{Binding Nombre}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="{AppThemeBinding Light=#0F172A, Dark=#F8FAFC}" />
+
+                                    <!-- Carrera -->
+                                    <Border Grid.Row="0" Grid.Column="1"
+                                            StrokeThickness="0"
+                                            BackgroundColor="{AppThemeBinding Light=#ECFDF5, Dark=#064E3B}"
+                                            Padding="8,2">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="6" />
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding Carrera}"
+                                               FontSize="11"
+                                               FontAttributes="Bold"
+                                               TextColor="{AppThemeBinding Light=#047857, Dark=#6EE7B7}" />
+                                    </Border>
+
+                                    <!-- Correo y Teléfono -->
+                                    <HorizontalStackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Spacing="16">
+                                        <Label Text="{Binding Correo, StringFormat='✉ {0}'}"
+                                               FontSize="13"
+                                               TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
+                                        <Label Text="{Binding Telefono, StringFormat='☎ {0}'}"
+                                               FontSize="13"
+                                               TextColor="{AppThemeBinding Light=#475569, Dark=#CBD5E1}" />
+                                    </HorizontalStackLayout>
+
+                                    <!-- Fecha de Registro -->
+                                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                           Text="{Binding FechaRegistro, StringFormat='📅 Registrado: {0:dd/MM/yyyy}'}"
+                                           FontSize="12"
+                                           TextColor="{AppThemeBinding Light=#94A3B8, Dark=#64748B}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,31 @@
+## Build and output folders
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.pidb
+*.booproj
+*.svclog
+
+## Visual Studio Code & IDEs
+.vscode/
+.idea/
+
+## Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## .NET MAUI / Android / iOS Artifacts
+*.apk
+*.aab
+*.ipa
+*.app
+*.dSYM/
